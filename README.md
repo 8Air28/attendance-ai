@@ -127,6 +127,8 @@ python -m uvicorn backend.main:app --reload
 
 ---
 
+![勤怠レポート画面](docs/screenshot-report.png)
+
 ## 工夫した点・アピールポイント
 
 - **業務システムを意識した API 設計**
