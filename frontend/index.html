@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>勤怠レポート</title>
+
+    <style>
+      body {
+        font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif;
+        background: #f4f6f8;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 60px auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      label {
+        font-weight: bold;
+      }
+
+      input[type="month"] {
+        padding: 8px;
+        font-size: 14px;
+        margin-left: 10px;
+      }
+
+      button {
+        display: block;
+        width: 100%;
+        margin-top: 20px;
+        padding: 12px;
+        font-size: 16px;
+        background: #0078d7;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #005fa3;
+      }
+
+      pre {
+        margin-top: 30px;
+        background: #f0f0f0;
+        padding: 15px;
+        border-radius: 6px;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>勤怠レポート生成</h1>
+
+      <label>
+        対象月：
+        <input type="month" id="month" value="2025-12" />
+      </label>
+
+      <button id="btn">レポート生成</button>
+
+      <pre id="result">ここにレポートが表示されます</pre>
+    </div>
+
+    <script>
+      document.getElementById("btn").addEventListener("click", async () => {
+        const month = document.getElementById("month").value;
+
+        if (!month) {
+          alert("月を選択してください");
+          return;
+        }
+
+        const res = await fetch(`http://127.0.0.1:8000/report?month=${month}`, {
+          method: "POST",
+        });
+
+        if (!res.ok) {
+          alert("レポート生成に失敗しました");
+          return;
+        }
+
+        const data = await res.json();
+        document.getElementById("result").textContent = data.report;
+      });
+    </script>
+  </body>
+</html>
